@@ -1,3 +1,12 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+
+index:
+   path: /
+   defaults: { _controller: 'App\Controller\GitResumeController::index' }
+
+generate-resume:
+   path: /generate-resume
+   defaults: { _controller: 'App\Controller\GitResumeController::generateResume' }

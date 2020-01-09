@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block title %} Git Resume {% endblock %}
+{% block body %}
+    <div class="container mt-5">
+        {% if  profileInfo is defined %}
+            <div class="row">
+                <div class="offset-2 col-8 ">
+                    <h3>{{ profileInfo.profile.name }}</h3>
+                    <h6>Github Resume: <a target="_blank" href="{{ profileInfo.profile.html_url }}">{{ username }}</a>
+                    </h6>
+                    <table class="table table-striped table-inverse">
+                        <tbody>
+                        <tr>
+                            <th>GitHub Profile</th>
+                            <th>You have {{ profileInfo.profile.public_repos }} public repositories</th>
+                        </tr>
+                        {% if( profileInfo.profile.blog) %}
+                            <tr>
+                                <td>Website</td>
+                                <td><a target="_blank"
+                                       href="{{ profileInfo.profile.blog }}">{{ profileInfo.profile.blog }}</a></td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td>Languages</td>
+                            <td>
+                                <ul class="list-group">
+                                    {% for language in profileInfo.languages %}
+                                        <li class="list-group-item">
+                                            <a target="_blank"
+                                               href="https://github.com/search?l={{ language.name }}&q=user:{{ username }}&type=Repositories">{{ language.name }}
+                                                ({{ language.ratio }}%)</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Repositories</td>
+                            <td>
+                                <div class="row">
+                                    {% for repo in profileInfo.repos %}
+                                        <div class="col-12">
+                                            <h5><a target="_blank" href="{{ repo.html_url }}">{{ repo.name }}</a></h5>
+                                            <h6>
+                                                {% if repo.language is not empty %} {{ repo.language }} - {% endif %}</h6>
+                                            {% if repo.owner.login is same as (username) %} Owner {% endif %}</h6>
+                                            <p>This repository has {{ repo.stargazers_count }} stars
+                                                and {{ repo.forks_count }} forks. If you
+                                                would like more
+                                                information
+                                                about
+                                                this repository and my contributed code, please visit the repo on
+                                                <a target="_blank" href="{{ repo.html_url }}">GitHub.</a></p>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        {% else %}
+            <h4 class="text-center text-danger">No Profile found for username: {{ username }}</h4>
+            <div class="text-center  "><a href="/" class="btn btn-primary">Go to main page</a></div>
+        {% endif %}
+    </div>
+
+{% endblock %}
